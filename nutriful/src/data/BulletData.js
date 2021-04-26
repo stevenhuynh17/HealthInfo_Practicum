@@ -11,13 +11,10 @@ let getDRV = (Patient) => {
         let { Age, Gender, Micronutrients } = DRV[i]
 
         if(Patient.Age < 8 && Patient.Age < Age) {
-            console.log(Gender)
             return Micronutrients
         } else if(Patient.Age < Age && Patient.Gender === Gender) {
-            console.log(Gender)
             return Micronutrients
         } else if(Patient.Age > 70 && Patient.Gender === Gender && Age > 70) {
-            console.log(Age, Gender)
             return Micronutrients
         }
     }
@@ -25,13 +22,18 @@ let getDRV = (Patient) => {
 
 let BulletData = (User) => {
     let data = []
+    let profile = getDRV(User)
 
-    for(let nutrient in getDRV(User)) {
+    for(let nutrient in profile) {
+        let range = [0,20,40,60,80,100].map((val) => {
+            return profile[nutrient] * (val/100)
+        })
+
         let template = {
-            "id": nutrient,
-            "ranges": [0,20,40,60,80,100],
-            "measures": [29],
-            "markers": [100]
+            "id": `${nutrient} (${Units[nutrient]})`,
+            "ranges": range,
+            "measures": [1],
+            "markers": [profile[nutrient]]
         }
         data.push(template)
     }

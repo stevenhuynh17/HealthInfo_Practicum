@@ -1,30 +1,15 @@
-import {lighten, makeStyles} from "@material-ui/core/styles";
-import {IconButton, Toolbar, Tooltip, Typography} from "@material-ui/core";
+import {fade, lighten, makeStyles} from "@material-ui/core/styles";
+import {IconButton, InputBase, Toolbar, Tooltip, Typography} from "@material-ui/core";
 import clsx from "clsx";
 import DeleteIcon from "@material-ui/icons/Delete";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import PropTypes from "prop-types";
 import React from "react";
+import SearchIcon from "@material-ui/icons/Search";
+import ToolbarStyles from "../styles/ToolbarStyles";
 
-const useToolbarStyles = makeStyles((theme) => ({
-    root: {
-        paddingLeft: theme.spacing(2),
-        paddingRight: theme.spacing(1),
-    },
-    highlight:
-        theme.palette.type === 'light'
-            ? {
-                color: theme.palette.secondary.main,
-                backgroundColor: lighten(theme.palette.secondary.light, 0.85),
-            }
-            : {
-                color: theme.palette.text.primary,
-                backgroundColor: theme.palette.secondary.dark,
-            },
-    title: {
-        flex: '1 1 100%',
-    },
-}));
+
+const useToolbarStyles = makeStyles(ToolbarStyles)
 
 const EnhancedTableToolbar = (props) => {
     const classes = useToolbarStyles();
@@ -42,8 +27,9 @@ const EnhancedTableToolbar = (props) => {
                 </Typography>
             ) : (
                 <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
-                    Nutrition
+                    Diet
                 </Typography>
+
             )}
 
             {numSelected > 0 ? (

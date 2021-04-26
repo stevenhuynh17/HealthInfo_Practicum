@@ -7,7 +7,8 @@ import {
     FormControlLabel, Switch } from '@material-ui/core'
 import EnhancedTableHead from "./EnhancedTableHead";
 import EnhancedTableToolbar from "./EnhancedTableToolbar";
-import Design from "../styles/Design";
+import HeaderStyle from "../styles/HeaderStyle";
+import SearchResults from "./SearchResults";
 
 function createData(name, calories, fat, carbs, protein) {
     return { name, calories, fat, carbs, protein };
@@ -55,7 +56,7 @@ const stableSort = (array, comparator) => {
     return stabilizedThis.map((el) => el[0]);
 }
 
-const useStyles = makeStyles(Design)
+const useStyles = makeStyles(HeaderStyle)
 
 export default function DataTable() {
     const classes = useStyles();
@@ -63,7 +64,6 @@ export default function DataTable() {
     const [orderBy, setOrderBy] = useState('calories');
     const [selected, setSelected] = useState([]);
     const [page, setPage] = useState(0);
-    const [dense, setDense] = useState(false);
     const [rowsPerPage, setRowsPerPage] = useState(5);
 
     const handleRequestSort = (event, property) => {
@@ -109,10 +109,6 @@ export default function DataTable() {
         setPage(0);
     };
 
-    const handleChangeDense = (event) => {
-        setDense(event.target.checked);
-    };
-
     const isSelected = (name) => selected.indexOf(name) !== -1;
 
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
@@ -125,7 +121,7 @@ export default function DataTable() {
                     <Table
                         className={classes.table}
                         aria-labelledby="tableTitle"
-                        size={dense ? 'small' : 'medium'}
+                        size={'small'}
                         aria-label="enhanced table"
                     >
                         <EnhancedTableHead
@@ -171,7 +167,7 @@ export default function DataTable() {
                                     );
                                 })}
                             {emptyRows > 0 && (
-                                <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
+                                <TableRow style={{ height: (33) * emptyRows }}>
                                     <TableCell colSpan={6} />
                                 </TableRow>
                             )}
@@ -188,10 +184,7 @@ export default function DataTable() {
                     onChangeRowsPerPage={handleChangeRowsPerPage}
                 />
             </Paper>
-            <FormControlLabel
-                control={<Switch checked={dense} onChange={handleChangeDense} />}
-                label="Dense padding"
-            />
+            <SearchResults/>
         </div>
     );
 }

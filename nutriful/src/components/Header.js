@@ -3,9 +3,9 @@ import { AppBar, Toolbar, IconButton, Typography, InputBase } from '@material-ui
 import { makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-import Design from '../styles/Design'
+import HeaderStyle from '../styles/HeaderStyle'
 
-const useStyles = makeStyles(Design)
+const useStyles = makeStyles(HeaderStyle)
 
 export default function Header() {
     const classes = useStyles();

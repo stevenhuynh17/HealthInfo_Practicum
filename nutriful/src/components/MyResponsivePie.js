@@ -76,7 +76,7 @@ const MyResponsivePie = ({ data /* see data tab */ }) => (
             },
             {
                 match: {
-                    id: 'lisp'
+                    id: 'fats'
                 },
                 id: 'lines'
             },
@@ -95,8 +95,8 @@ const MyResponsivePie = ({ data /* see data tab */ }) => (
         ]}
         legends={[
             {
-                anchor: 'bottom',
-                direction: 'row',
+                anchor: 'top-right',
+                direction: 'column',
                 justify: false,
                 translateX: 0,
                 translateY: 56,

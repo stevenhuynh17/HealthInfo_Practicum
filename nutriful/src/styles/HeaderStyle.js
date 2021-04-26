@@ -1,6 +1,6 @@
 import {fade} from "@material-ui/core/styles";
 
-const Design = (theme) => {
+const HeaderStyle = (theme) => {
     return {
     root: {
         flexGrow: 1,
@@ -74,4 +74,4 @@ const Design = (theme) => {
     },
 }}
 
-export default Design
+export default HeaderStyle
