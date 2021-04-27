@@ -24,18 +24,24 @@ const useStyles = makeStyles({
     },
 });
 
-export default function VitalsCard() {
+
+
+export default function VitalsCard(props) {
     const classes = useStyles();
+    const {val} = props
+
+    const {name,value} = val
+
+
     const bull = <span className={classes.bullet}>•</span>;
-    console.log(Patient)
     return (
         <Card className={classes.root} variant="outlined">
             <CardContent>
                 <Typography className={classes.title} color="textSecondary" gutterBottom>
-                    Word of the Day
+                    {name}
                 </Typography>
-                <Typography variant="h5" component="h2">
-                    100
+                <Typography variant="h6" component="h2">
+                    {value}
                 </Typography>
             </CardContent>
             {/*<CardActions>*/}
