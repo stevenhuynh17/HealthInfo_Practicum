@@ -23,7 +23,8 @@ export default function SearchList(props) {
     const classes = useStyles();
     const {data} = props
     const [db, setDb] = useState({});
-    const dispatch = useContext(DataDispatch)
+    const {state, dispatch} = useContext(DataDispatch)
+
     console.log(dispatch)
 
     const handleSelect = (id) => {
@@ -32,15 +33,15 @@ export default function SearchList(props) {
             .then((res) => res.json())
             .then((info) => {
                 console.log(info)
+                dispatch({type:'ADD_ITEM', data: info})
+                dispatch({type:'UPDATE_PIE'})
                 db.setDb(info)
             })
             .catch((err) => {
                 console.log("ERROR:", err)
-                //info.nutrition.nutrients
-                //info.nutrition.caloricBreakdown
             })
-
     }
+
     return (
         <div className={classes.root}>
             <List component="nav" aria-label="main mailbox folders">

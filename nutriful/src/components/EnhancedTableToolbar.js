@@ -4,17 +4,18 @@ import clsx from "clsx";
 import DeleteIcon from "@material-ui/icons/Delete";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import PropTypes from "prop-types";
-import React from "react";
-import SearchIcon from "@material-ui/icons/Search";
+import React, {useContext} from "react";
 import ToolbarStyles from "../styles/ToolbarStyles";
+import {DataDispatch} from "../data/Context";
 
 
 const useToolbarStyles = makeStyles(ToolbarStyles)
 
 const EnhancedTableToolbar = (props) => {
     const classes = useToolbarStyles();
-    const { numSelected } = props;
-
+    const { numSelected, selected } = props;
+    const { state, dispatch } = useContext(DataDispatch)
+    console.log(selected)
     return (
         <Toolbar
             className={clsx(classes.root, {
@@ -34,7 +35,9 @@ const EnhancedTableToolbar = (props) => {
 
             {numSelected > 0 ? (
                 <Tooltip title="Delete">
-                    <IconButton aria-label="delete">
+                    <IconButton aria-label="delete" onClick={() => {
+                        dispatch({type:"REMOVE_ITEM", data:selected})
+                    }}>
                         <DeleteIcon />
                     </IconButton>
                 </Tooltip>

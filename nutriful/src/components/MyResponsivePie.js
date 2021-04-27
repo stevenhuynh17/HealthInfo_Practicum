@@ -8,7 +8,7 @@ import { ResponsivePie } from '@nivo/pie'
 // you'll often use just a few of them.
 
 
-const MyResponsivePie = ({ data /* see data tab */ }) => (
+const MyResponsivePie = ({ data }) => (
     <ResponsivePie
         data={data}
         margin={{ top: 40, right: 80, bottom: 80, left: 80 }}

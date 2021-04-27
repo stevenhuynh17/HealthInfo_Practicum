@@ -5,6 +5,8 @@ import ToolbarStyles from "../styles/ToolbarStyles";
 import {makeStyles} from "@material-ui/core/styles";
 import API from "../data/API_Key";
 import SearchList from "./SearchList";
+import { green, purple } from '@material-ui/core/colors';
+
 
 const useSearchStyles = makeStyles(ToolbarStyles)
 
@@ -52,6 +54,9 @@ const SearchResults = (props) => {
                 />
                 <Button variant="contained" color="primary" onClick={handleSearch}>
                     Find Ingredients
+                </Button>
+                <Button variant="contained" color="primary">
+                    Suggest Me Something
                 </Button>
             </div>
             <SearchList data={fakeData}/>
