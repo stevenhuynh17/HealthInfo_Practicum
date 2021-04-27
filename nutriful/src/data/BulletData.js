@@ -1,6 +1,7 @@
 import DRV from "./DRV.js"
 import Units from "./Units"
 
+
 const Patient = {
     "Age": 23,
     "Gender": "Male"
@@ -20,9 +21,13 @@ let getDRV = (Patient) => {
     }
 }
 
-let BulletData = (User) => {
+export const getProfile = (User) => {
+    return getDRV(User)
+}
+
+let BulletData = () => {
     let data = []
-    let profile = getDRV(User)
+    let profile = getProfile(Patient)
 
     for(let nutrient in profile) {
         let range = [0,20,40,60,80,100].map((val) => {
@@ -32,7 +37,8 @@ let BulletData = (User) => {
         let template = {
             "id": `${nutrient} (${Units[nutrient]})`,
             "ranges": range,
-            "measures": [1],
+            // "measures": [profile[nutrient]],
+            "measures": [0],
             "markers": [profile[nutrient]]
         }
         data.push(template)
@@ -40,4 +46,4 @@ let BulletData = (User) => {
     return data
 }
 
-export default BulletData(Patient)
+export default BulletData

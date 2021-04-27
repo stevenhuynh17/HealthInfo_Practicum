@@ -6,47 +6,89 @@ import MyResponsivePie from "../components/MyResponsivePie";
 import MyResponsiveBullet from "../components/MyResponsiveBullet";
 import BulletData from "../data/BulletData";
 import { DataDispatch, defaultState } from "../data/Context"
+import Units from "../data/Units";
 
 function createData(name, calories, fat, carbohydrates, protein) {
     return { name, calories, fat, carbohydrates, protein };
 }
 
-const reducer = (state,action) => {
+const getMacros = (action) => {
+    const { data } = action
+    const {originalName} = data
+    const {nutrients} = data.nutrition
+    let result = {}
+    let tableData = nutrients.filter((nutrient) => {
+        return (
+            nutrient.title === "Calories" ||
+            nutrient.title === "Fat" ||
+            nutrient.title === "Protein" ||
+            nutrient.title === "Carbohydrates"
+        )
+    }).map((nutrient) => {
+        let {name, amount} = nutrient
+        name = name.toLowerCase()
+        result = {...result, [name]:amount}
+        return {...result, "name":originalName}
+    })
 
+    const {carbohydrates, calories, fat, protein, name} = tableData.pop()
+    return createData(name, calories, fat, carbohydrates, protein)
+}
+
+const calcPie = (state, newItem) => {
+    return state.pieChart.map((macro) => {
+        if(macro.id === "protein") {
+            macro.value += (newItem.protein * 4)
+        } else if(macro.id === "carbs") {
+            macro.value += (newItem.carbohydrates * 4)
+        } else if(macro.id === "fats") {
+            macro.value += (newItem.fat * 9)
+        }
+        return macro
+    })
+}
+
+const reducer = (state,action) => {
     if(action.type === "ADD_ITEM") {
+        let newItem = getMacros(action)
+        const tableResults = [...state.table].concat(newItem)
+
+        let pieData = calcPie(state, newItem)
+
         const { data } = action
         const {originalName} = data
         const {nutrients} = data.nutrition
 
-        let result = {}
-        let tableData = nutrients.filter((nutrient) => {
-            return (
-                nutrient.title === "Calories" ||
-                nutrient.title === "Fat" ||
-                nutrient.title === "Protein" ||
-                nutrient.title === "Carbohydrates"
-            )
-        }).map((nutrient) => {
-            let {name, amount} = nutrient
-            name = name.toLowerCase()
-            result = {...result, [name]:amount}
-            return {...result, "name":originalName}
+        console.log(nutrients)
+        console.log(state.bulletChart)
+
+        // nutrients.forEach((nutrient) => {
+        //     let query = `${nutrient.title} (${nutrient.unit})`
+        //     state.bulletChart.map((value) => {
+        //         // console.log(query, value.id)
+        //         if(value.id === query) {
+        //             console.log(value.measures[0], nutrient.amount)
+        //             value.measures[0] = value.measures[0] + nutrient.amount
+        //         }
+        //     })
+        // })
+
+        let blah = state.bulletChart.map((value) => {
+            nutrients.forEach((nutrient) => {
+                let query = `${nutrient.title} (${nutrient.unit})`
+
+                if(value.id === query) {
+                    value.measures[0] = value.measures[0] + nutrient.amount
+
+                    if(value.measures[0] >= value.markers[0]) {
+                        value.measures[0] = value.markers[0]
+                    }
+                }
+            })
+            return value
         })
 
-        const {carbohydrates, calories, fat, protein, name} = tableData.pop()
-        const newItem = createData(name, calories, fat, carbohydrates, protein)
-        const tableResults = [...state.table].concat(newItem)
-        let pieData = state.pieChart.map((macro) => {
-            if(macro.id === "protein") {
-                macro.value += (newItem.protein * 4)
-            } else if(macro.id === "carbs") {
-                macro.value += (newItem.carbohydrates * 4)
-            } else if(macro.id === "fats") {
-                macro.value += (newItem.fat * 9)
-            }
-            return macro
-        })
-        return{...state, table: tableResults, pieChart:pieData}
+        return{...state, table: tableResults, pieChart:pieData, bulletChart:blah}
     }
 
     if(action.type === "REMOVE_ITEM") {
@@ -75,7 +117,7 @@ export default function Home() {
                 <MyResponsivePie data={state.pieChart}/>
             </div>
             <div style={{height: "2400px", width: "90%"}}>
-                <MyResponsiveBullet data={BulletData}/>
+                <MyResponsiveBullet data={state.bulletChart}/>
             </div>
         </DataDispatch.Provider>
     )

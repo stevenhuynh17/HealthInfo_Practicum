@@ -1,5 +1,11 @@
 import { createContext} from "react";
 import PieData from "./PieData";
+import BulletData from "./BulletData"
+
+const Patient = {
+    "Age": 23,
+    "Gender": "Male"
+}
 
 function createData(name, calories, fat, carbohydrates, protein) {
     return { name, calories, fat, carbohydrates, protein };
@@ -21,13 +27,12 @@ let rows = [
     // createData('Oreo', 437, 18.0, 63, 4.0),
 ];
 
-let calc = () => {
+let calcMacros = () => {
     let calorieSum = 0
     let proteinSum = 0
     let fatSum = 0
     let carbSum = 0
     rows.forEach((row) => {
-        console.log(calorieSum, row.calories)
         calorieSum += row.calories
         proteinSum += row.protein
         fatSum += row.fat
@@ -41,8 +46,8 @@ export const defaultState = {
     user: {},
     table: rows,
     searchResults: {},
-    pieChart: PieData(calc()),
-    bulletChart: {}
+    pieChart: PieData(calcMacros()),
+    bulletChart: BulletData()
 }
 
 export const DataDispatch = createContext(defaultState)
