@@ -23,19 +23,21 @@ const fakeData = [
 const SearchResults = (props) => {
     const classes = useSearchStyles();
     const [data, setData] = useState({});
+    const [input, setInput] = useState();
 
     const handleSearch = () => {
-        console.log("HELLO")
-        let getIngredient_URL = `https://api.spoonacular.com/food/ingredients/search?query=banana&number=5&sort=calories&sortDirection=desc&apiKey=${API}`
-        // fetch(getIngredient_URL)
-        //     .then((res) => res.json())
-        //     .then((data) => {
-        //         console.log(data)
-        //         setData(data.results)
-        //     })
-        //     .catch((err) => {
-        //         console.log("ERROR:", err)
-        //     })
+        console.log(input)
+        let getIngredient_URL = `https://api.spoonacular.com/food/ingredients/search?query=${input}&number=5&sort=calories&sortDirection=desc&apiKey=${API}`
+        console.log(getIngredient_URL)
+        fetch(getIngredient_URL)
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data)
+                setData(data.results)
+            })
+            .catch((err) => {
+                console.log("ERROR:", err)
+            })
     }
 
     return(
@@ -51,15 +53,16 @@ const SearchResults = (props) => {
                         input: classes.inputInput,
                     }}
                     inputProps={{ 'aria-label': 'search' }}
+                    onChange={(e) => setInput(e.target.value)}
                 />
                 <Button variant="contained" color="primary" onClick={handleSearch}>
-                    Find Ingredients
+                    Find Food
                 </Button>
                 <Button variant="contained" color="primary">
-                    Suggest Me Something
+                    Suggestion
                 </Button>
             </div>
-            <SearchList data={fakeData}/>
+            <SearchList data={data}/>
         </section>
 
     )

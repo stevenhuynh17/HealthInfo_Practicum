@@ -59,20 +59,6 @@ const reducer = (state,action) => {
         const {originalName} = data
         const {nutrients} = data.nutrition
 
-        console.log(nutrients)
-        console.log(state.bulletChart)
-
-        // nutrients.forEach((nutrient) => {
-        //     let query = `${nutrient.title} (${nutrient.unit})`
-        //     state.bulletChart.map((value) => {
-        //         // console.log(query, value.id)
-        //         if(value.id === query) {
-        //             console.log(value.measures[0], nutrient.amount)
-        //             value.measures[0] = value.measures[0] + nutrient.amount
-        //         }
-        //     })
-        // })
-
         let blah = state.bulletChart.map((value) => {
             nutrients.forEach((nutrient) => {
                 let query = `${nutrient.title} (${nutrient.unit})`
@@ -87,7 +73,6 @@ const reducer = (state,action) => {
             })
             return value
         })
-
         return{...state, table: tableResults, pieChart:pieData, bulletChart:blah}
     }
 

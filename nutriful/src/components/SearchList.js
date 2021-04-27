@@ -25,7 +25,7 @@ export default function SearchList(props) {
     const [db, setDb] = useState({});
     const {state, dispatch} = useContext(DataDispatch)
 
-    console.log(dispatch)
+    console.log(data)
 
     const handleSelect = (id) => {
         let getInfo_URL = `https://api.spoonacular.com/food/ingredients/${id}/information?amount=1&unit=serving&apiKey=${API}`
@@ -45,7 +45,7 @@ export default function SearchList(props) {
     return (
         <div className={classes.root}>
             <List component="nav" aria-label="main mailbox folders">
-                {
+                { data.length > 0 ?
                     data.map((result) => {
                         const {id, name, image} = result
                         return(
@@ -57,7 +57,7 @@ export default function SearchList(props) {
                                 <Button variant="contained" color="secondary" onClick={()=>handleSelect(id)}>Add</Button>
                             </ListItem>
                         )
-                    })
+                    }) : <div></div>
                 }
             </List>
         </div>

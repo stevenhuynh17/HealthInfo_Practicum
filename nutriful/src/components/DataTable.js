@@ -53,7 +53,6 @@ export default function DataTable() {
     const {state, dispatch} = useContext(DataDispatch)
 
     let rows = state.table
-    console.log(rows)
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -86,7 +85,6 @@ export default function DataTable() {
                 selected.slice(selectedIndex + 1),
             );
         }
-        console.log(newSelected)
 
         // dispatch({type:"REMOVE_ITEM", data:newSelected})
         setSelected(newSelected);
